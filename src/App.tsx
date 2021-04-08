@@ -2,22 +2,30 @@ import React from 'react';
 import './App.sass';
 
 // components
-import { Leaderboard } from './components'
+import { Leaderboard, ScoreForm, Settings } from './components'
 
 // contexts
-import { TimeframeContext, TimeframeContextProvider, ScoresContext, ScoresContextProvider } from './contexts/index';
+import { GameCompletionTimeContextProvider, GameDifficultyContextProvider, IsLoadingContextProvider, TimeframeContextProvider, ScoresContextProvider } from './contexts/index';
 
 
 export const App: React.FC = () => (
-    <>
-      <Leaderboard />
-    </>
-  );
+  <>
+    <Settings />
+    <Leaderboard />
+    <ScoreForm />
+  </>
+);
 
 export const AppProviders: React.FC = ({ children }) => (
-  <TimeframeContextProvider>
-    <ScoresContextProvider>
-      {children}
-    </ScoresContextProvider>
-  </TimeframeContextProvider>
+  <GameCompletionTimeContextProvider>
+    <GameDifficultyContextProvider>
+      <IsLoadingContextProvider>
+        <TimeframeContextProvider>
+          <ScoresContextProvider>
+            {children}
+          </ScoresContextProvider>
+        </TimeframeContextProvider>
+      </IsLoadingContextProvider>
+    </GameDifficultyContextProvider>
+  </GameCompletionTimeContextProvider>
 );
