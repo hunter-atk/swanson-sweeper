@@ -76,10 +76,11 @@ export const App: React.FC = () => {
 
   return (
     <div>
-      {JSON.stringify(scores)}
-      {isLoading ? "Loading" : "NOT Loading"}
-      {errorMessage ? <p>{errorMessage}</p> : null}
-      {isComplete ? <p>Score Submitted!</p> : null}
+      <div>
+        {isLoading ? "Loading" : "NOT Loading"}
+        {errorMessage ? <p>{errorMessage}</p> : null}
+        {isComplete ? <p>Score Submitted!</p> : null}
+      </div>
 
       <div>
         <label>Game Difficulty:</label>
