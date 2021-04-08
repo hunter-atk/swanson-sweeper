@@ -1,0 +1,21 @@
+@import ../../styles/Variables.sass
+    
+.cellMain
+    border: 1px solid black
+    height: 40px
+    width: 40px
+    cursor: pointer
+
+    &.clicked
+        background: gray 
+
+    &.flagged
+        background-image: url(../../assets/red-flag.svg)
+        background-size: contain 
+        background-position: top
+        background-repeat: no-repeat
+
+    &.mine
+        background: red
+        background-image: url(../../assets/mine.svg)
+

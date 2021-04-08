@@ -2,10 +2,10 @@ import * as React from 'react';
 import { Dispatch, SetStateAction, createContext, useState } from 'react';
 
 interface Score {
-  playerName: String,
-  gameCompletionTime: Number,
-  gameCompletionDate: String,
-  gameDifficulty: String
+  playerName: string,
+  gameCompletionTime: number,
+  gameCompletionDate: string,
+  gameDifficulty: string
 }
 
 interface Scores {

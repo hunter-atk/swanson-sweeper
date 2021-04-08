@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Dispatch, SetStateAction, createContext, useState } from 'react';
 
 interface IProps {
-  gameCompletionTime: Number;
+  gameCompletionTime: number;
   setGameCompletionTime: Dispatch<SetStateAction<number>>
 }
 
