@@ -5,68 +5,124 @@ import { useContext, useEffect, useState } from 'react';
 import { Cell } from '../cell/Cell';
 
 // contexts
-import { GameDifficultyContext, GameStatsContext } from '../../contexts/index';
+// import { GameDifficultyContext, GameStatsContext } from '../../contexts/index';
 
 // styles
 import './MinesweeperMatrix.sass';
 
-export const MinesweeperMatrix: React.FC = () => {
-  // const { gameDifficulty } = useContext(GameDifficultyContext);
-  const { coinsGathered, totalCoins, setTotalCoins } = useContext(GameStatsContext);
-  const [mineValues] = useState([...Array(9)].map(() => Array(9)));
+interface IProps {
+  height: number;
+  width: number;
+  mines: number;
+}
+
+export const MinesweeperMatrix: React.FC<IProps> = ({ height, width, mines }) => {
+  const [coinsGathered, setCoinsGathered] = useState(0);
+  const [dataMatrix, setDataMatrix] = useState([] as any[]);
   const [winMessage, setWinMessage] = useState("");
 
-  // useEffect(() => {
-  //   if (gameDifficulty) {
-  //     if(gameDifficulty === 'beginner'){
-  //       setMatrix()
-  //     }
-  //     return;
-  //   }
-  // }, [gameDifficulty])
-
   useEffect(() => {
-    generateMines();
+    initializeMatrixData();
   }, [])
 
   useEffect(() => {
-    if(coinsGathered){
-      if(coinsGathered === totalCoins) setWinMessage("YOU WON!!!");
+    if (coinsGathered) {
+      if (coinsGathered === (height * width) - mines) setWinMessage("YOU WON!!!");
     }
   }, [coinsGathered])
 
-  let rows = 9;
-  let columns = 9;
+  useEffect(() => {
+    if(dataMatrix){
+      console.log(dataMatrix);
+      return
+    }
+  }, [dataMatrix])
 
-  const generateMines = () => {
-    let coinCount = 0;
-    for (let i = 0; i < mineValues.length; i++) {
-      for (let j = 0; j < mineValues[0].length; j++) {
-        const randomFloat = Math.random();
-        if (randomFloat > 0.22) { 
-          coinCount++;
-        };
-        mineValues[i][j] = randomFloat < 0.22;
+  const initializeMatrixData = () => {
+    const matrixTemplate = createDataMatrix();
+    const matrixWithMines = addMines(matrixTemplate);
+    const matrixWithNeighborValues = populateNeighborValues(matrixWithMines);
+    console.log(matrixWithNeighborValues)
+    setDataMatrix(matrixWithNeighborValues);
+  }
+
+  const createDataMatrix = () => {
+    let data = [] as any[];
+
+    for (let i = 0; i < height; i++) {
+      data.push([]);
+      for (let j = 0; j < width; j++) {
+        data[i][j] = {
+          row: i,
+          col: j,
+          isMine: false,
+          isFlagged: false,
+          surroundingMines: 0
+        }
       }
     }
-    setTotalCoins(coinCount);
+
+    return data;
+  }
+
+  const addMines = (data: any[]) => {
+    let randomRow = 0, randomColumn = 0, minesAdded = 0
+
+    while (minesAdded < mines) {
+      randomRow = Math.floor(Math.random() * height);
+      randomColumn = Math.floor(Math.random() * width);
+      if (!data[randomRow][randomColumn].isMine) {
+        data[randomRow][randomColumn].isMine = true;
+        minesAdded++;
+      }
+    }
+
+    return data;
   };
+
+  const countSurroundingMines = (data: any, row: number, column: number) => {
+    const directions = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]];
+    let currentSurroundingMineCount = 0;
+    for(let i = 0; i < directions.length; i++){
+      let peekRow = data[row][column].row + directions[i][0];
+      let peekColumn = data[row][column].col + directions[i][1];
+      if(peekRow < 0 || peekRow >= height || peekColumn < 0 || peekColumn >= width) {
+        console.log("Not valid address: ", [peekRow, peekColumn])
+      } else {
+        if(data[peekRow][peekColumn].isMine) currentSurroundingMineCount++;
+      }
+    }
+    data[row][column].surroundingMines = currentSurroundingMineCount;
+  }
+
+  const populateNeighborValues = (data: any) => {
+    for(let i = 0; i < height; i++){
+      for(let j = 0; j < width; j++){
+        countSurroundingMines(data, i, j);
+      }
+    }
+    return data;
+  }
+
+  if(dataMatrix.length < height || !dataMatrix[height - 1][width - 1]){
+    return <div>Loading...</div>
+  }
 
   return (
     <>
-    <div className="mmMain">
+      <div className="mmMain">
 
-      {Array.from(Array(rows), (e, row) => {
-        return <div className="mmRowContainer" key={row}>
-          {Array.from(Array(columns), (e, column) => {
-            return <Cell keyValue={column} row={row} column={column} mine={mineValues[row][column]} />
-          })}
-        </div>
-      })}
+        {Array.from(Array(height), (e, row) => {
+          return <div className="mmRowContainer" key={row}>
+            {Array.from(Array(width), (e, column) => {
+              return <Cell keyValue={column} data={dataMatrix[row][column]} />
+            })}
+          </div>
+        })}
 
-    </div>
-    <div>Coins gathered: {coinsGathered}</div>
-    <div>{winMessage}</div>
+      </div>
+      <div>Coins gathered: {coinsGathered}</div>
+      <div>{winMessage}</div>
     </>
   );
 }

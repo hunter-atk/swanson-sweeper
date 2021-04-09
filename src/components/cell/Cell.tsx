@@ -8,32 +8,37 @@ import { GameStatsContext } from '../../contexts/index';
 // styles
 import './Cell.sass';
 
-interface IProps {
-  keyValue: number;
-  mine: boolean;
+interface Data {
   row: number;
-  column: number;
+  col: number,
+  isMine: boolean;
+  isFlagged: boolean;
+  surroundingMines: number;
 }
 
-export const Cell: React.FC<IProps> = ({ keyValue, mine, row, column }) => {
+interface IProps {
+  keyValue: number;
+  data: Data;
+}
+
+export const Cell: React.FC<IProps> = ({ keyValue, data }) => {
   const { coinsGathered, setCoinsGathered } = useContext(GameStatsContext);
   const [clicked, setClicked] = useState(false);
   const [flagged, setFlagged] = useState(false);
-  const [surroundingMines, setSurroundingMines] = useState(-1);
 
   useEffect(() => {
-    if (clicked || flagged || surroundingMines) {
+    if (clicked || flagged || data) {
       return;
     }
-  }, [clicked, flagged, surroundingMines])
+  }, [clicked, flagged, data])
   
   const handleClick = (eventType: string) => {
     if(eventType === 'contextmenu' && !clicked){
       setFlagged(!flagged)
     } else if (!flagged) {
-      console.log(mine)
+      console.log(data.isMine)
       setClicked(true)
-      if(!mine && !clicked){
+      if(!data.isMine && !clicked){
         setCoinsGathered(coinsGathered + 1);
       }
     }
@@ -41,7 +46,8 @@ export const Cell: React.FC<IProps> = ({ keyValue, mine, row, column }) => {
 
   const displayClicked = !flagged && clicked;
   const displayFlagged = !clicked && flagged;
-  const displayMine = clicked && !flagged && mine;
+  // const displayMine = data.isMine;
+  const displayMine = clicked && !flagged && data.isMine;
 
   return (
     <div key={keyValue} className={classNames(
@@ -55,6 +61,9 @@ export const Cell: React.FC<IProps> = ({ keyValue, mine, row, column }) => {
       e.preventDefault();
       handleClick(e.type);
     }}
-    />
+    >{data.surroundingMines}</div>
   );
 }
+
+// on click, if neighbor value is empty, recursively check/reveal surrounding cells
+// on click, if neighbor value not empty, show surroundingMine value

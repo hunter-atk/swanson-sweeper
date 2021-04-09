@@ -2,7 +2,7 @@ import React from 'react';
 import './App.sass';
 
 // components
-import { Leaderboard, MinesweeperMatrix, ScoreForm, Settings } from './components'
+import { Leaderboard, Board, ScoreForm, Settings } from './components'
 
 // contexts
 import { GameCompletionTimeContextProvider, GameDifficultyContextProvider, GameStatsContextProvider, IsLoadingContextProvider, TimeframeContextProvider, ScoresContextProvider } from './contexts/index';
@@ -10,7 +10,7 @@ import { GameCompletionTimeContextProvider, GameDifficultyContextProvider, GameS
 
 export const App: React.FC = () => (
   <>
-    <MinesweeperMatrix />
+    <Board />
     <Settings />
     <Leaderboard />
     <ScoreForm />
