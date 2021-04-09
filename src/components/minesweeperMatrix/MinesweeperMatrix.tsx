@@ -1,14 +1,27 @@
 import React from 'react';
 import { useContext, useEffect, useState } from 'react';
 
+// functions
+import { initializeMatrixData } from '../../functions/initializeMatrixData'
+
 // components
 import { Cell } from '../cell/Cell';
 
 // contexts
-// import { GameDifficultyContext, GameStatsContext } from '../../contexts/index';
+import { GameStatsContext } from '../../contexts/index';
 
 // styles
 import './MinesweeperMatrix.sass';
+
+// interface Data {
+//   row: number;
+//   col: number,
+//   isMine: boolean;
+//   isFlagged: boolean;
+//   surroundingMines: number;
+//   isRevealed: boolean;
+//   clicked: boolean;
+// }
 
 interface IProps {
   height: number;
@@ -17,94 +30,85 @@ interface IProps {
 }
 
 export const MinesweeperMatrix: React.FC<IProps> = ({ height, width, mines }) => {
-  const [coinsGathered, setCoinsGathered] = useState(0);
+  const { coinsGathered, setCoinsGathered, gameStatus, setGameStatus } = useContext(GameStatsContext);
   const [dataMatrix, setDataMatrix] = useState([] as any[]);
-  const [winMessage, setWinMessage] = useState("");
 
   useEffect(() => {
-    initializeMatrixData();
+    const newData = initializeMatrixData(width, height, mines);
+    setDataMatrix(newData);
   }, [])
 
   useEffect(() => {
     if (coinsGathered) {
-      if (coinsGathered === (height * width) - mines) setWinMessage("YOU WON!!!");
+      if (coinsGathered === (height * width) - mines) setGameStatus('won');
     }
   }, [coinsGathered])
 
-  useEffect(() => {
-    if(dataMatrix){
-      console.log(dataMatrix);
-      return
+  const revealAllMines = () => {
+    for (let i = 0; i < dataMatrix.length; i++) {
+      for (let j = 0; j < dataMatrix[0].length; j++) {
+        if (dataMatrix[i][j].isMine) dataMatrix[i][j].clicked = true;
+      }
     }
-  }, [dataMatrix])
-
-  const initializeMatrixData = () => {
-    const matrixTemplate = createDataMatrix();
-    const matrixWithMines = addMines(matrixTemplate);
-    const matrixWithNeighborValues = populateNeighborValues(matrixWithMines);
-    console.log(matrixWithNeighborValues)
-    setDataMatrix(matrixWithNeighborValues);
   }
 
-  const createDataMatrix = () => {
-    let data = [] as any[];
-
-    for (let i = 0; i < height; i++) {
-      data.push([]);
-      for (let j = 0; j < width; j++) {
-        data[i][j] = {
-          row: i,
-          col: j,
-          isMine: false,
-          isFlagged: false,
-          surroundingMines: 0
+  const traverseAndReveal = (data: any, row: number, col: number) => {
+    const currentCell = dataMatrix[row][col];
+    if(currentCell.isMine || currentCell.isFlagged || currentCell.clicked) return;
+    currentCell.isRevealed = true;
+    if (currentCell.surroundingMines) {
+      currentCell.clicked = true;
+      return
+    } else {
+      currentCell.clicked = true;
+      setCoinsGathered(coinsGathered + 1);
+      const directions = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]];
+      for (let i = 0; i < directions.length; i++) {
+        let peekRow = currentCell.row + directions[i][0];
+        let peekColumn = currentCell.col + directions[i][1];
+        if (peekRow < 0 || peekRow >= height || peekColumn < 0 || peekColumn >= width) {
+          continue;
+        } else {
+          traverseAndReveal(data, peekRow, peekColumn);
         }
       }
     }
-
-    return data;
+    return;
   }
 
-  const addMines = (data: any[]) => {
-    let randomRow = 0, randomColumn = 0, minesAdded = 0
+  const handleClick = (row: number, col: number, event: React.MouseEvent) => {
+    const currentCell = dataMatrix[row][col];
 
-    while (minesAdded < mines) {
-      randomRow = Math.floor(Math.random() * height);
-      randomColumn = Math.floor(Math.random() * width);
-      if (!data[randomRow][randomColumn].isMine) {
-        data[randomRow][randomColumn].isMine = true;
-        minesAdded++;
-      }
+    if (gameStatus !== 'pending' || currentCell.clicked || currentCell.isFlagged) return;
+
+    if (currentCell.isMine && !currentCell.isFlagged) {
+      currentCell.clicked = true;
+      setGameStatus('lost');
+      revealAllMines();
+      return;
     }
 
-    return data;
+    currentCell.isRevealed = true;
+    if(currentCell.surroundingMines) { 
+      currentCell.clicked = true;
+      setCoinsGathered(coinsGathered + 1);
+    } else {
+      traverseAndReveal(dataMatrix, row, col);
+    }
+
+    if (coinsGathered === height * width - mines) {
+      setGameStatus('won');
+    }
   };
 
-  const countSurroundingMines = (data: any, row: number, column: number) => {
-    const directions = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]];
-    let currentSurroundingMineCount = 0;
-    for(let i = 0; i < directions.length; i++){
-      let peekRow = data[row][column].row + directions[i][0];
-      let peekColumn = data[row][column].col + directions[i][1];
-      if(peekRow < 0 || peekRow >= height || peekColumn < 0 || peekColumn >= width) {
-        console.log("Not valid address: ", [peekRow, peekColumn])
-      } else {
-        if(data[peekRow][peekColumn].isMine) currentSurroundingMineCount++;
-      }
-    }
-    data[row][column].surroundingMines = currentSurroundingMineCount;
-  }
+  const handleRightClick = (row: number, col: number) => {
+    const currentCell = dataMatrix[row][col];
+    if (gameStatus !== 'pending' || currentCell.clicked) return;
 
-  const populateNeighborValues = (data: any) => {
-    for(let i = 0; i < height; i++){
-      for(let j = 0; j < width; j++){
-        countSurroundingMines(data, i, j);
-      }
-    }
-    return data;
-  }
+    currentCell.isFlagged = !currentCell.isFlagged
+  };
 
-  if(dataMatrix.length < height || !dataMatrix[height - 1][width - 1]){
+  if (dataMatrix.length < height || !dataMatrix[height - 1][width - 1]) {
     return <div>Loading...</div>
   }
 
@@ -115,20 +119,34 @@ export const MinesweeperMatrix: React.FC<IProps> = ({ height, width, mines }) =>
         {Array.from(Array(height), (e, row) => {
           return <div className="mmRowContainer" key={row}>
             {Array.from(Array(width), (e, column) => {
-              return <Cell keyValue={column} data={dataMatrix[row][column]} />
+              return <Cell keyValue={column} data={dataMatrix[row][column]} handleClick={handleClick} handleRightClick={handleRightClick} />
             })}
           </div>
         })}
 
       </div>
       <div>Coins gathered: {coinsGathered}</div>
-      <div>{winMessage}</div>
+      {/* <button onClick={() => {
+        // setDataMatrix([]);
+        setGameStatus('pending');
+        initializeMatrixData(width, height, mines);
+      }}>Reset</button> */}
+      <div>
+        {gameStatus === 'lost' ? 'YOU LOST!!!' : null}
+        {gameStatus === 'win' ? 'YOU WIN!!!' : null}
+      </div>
     </>
   );
 }
 
+// PLAN A
 // create context to store which row and which column to process
 // create a queue to store matrix addresses that need to be processed
 // Cell instances should listen to this. If the row and column matches, process the cell
 // After processing the cell, add all of its surrounding cell addresses to the queue
 // terminate when queue is empty
+
+// PLAN B
+// create a 2D matrix to store cell data
+// have cells listen to the data in the cell at their own address
+
