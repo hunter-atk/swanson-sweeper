@@ -9,14 +9,14 @@ interface IProps {
 }
 
 export const TimerContext = createContext<IProps>({
-  secondsElapsed: 75,
+  secondsElapsed: 0,
   timerRunning: false,
   setSecondsElapsed: () => {},
   setTimerRunning: () => {}
 });
 
 export const TimerContextProvider: React.FC = (props) => {
-  const [secondsElapsed, setSecondsElapsed] = useState(75);
+  const [secondsElapsed, setSecondsElapsed] = useState(0);
   const [timerRunning, setTimerRunning] = useState(false);
 
   const value = { secondsElapsed, setSecondsElapsed, timerRunning, setTimerRunning };

@@ -1,5 +1,5 @@
-import React from 'react';
-import { useContext } from 'react';
+import React, { useEffect } from 'react';
+import { useContext, useState } from 'react';
 
 // contexts
 import { TimerContext } from '../../contexts/index';
@@ -10,16 +10,22 @@ import './TimeDisplay.sass';
 export const TimeDisplay: React.FC = () => {
   const { secondsElapsed, setSecondsElapsed, timerRunning } = useContext(TimerContext);
 
-  while(timerRunning){
-    setTimeout(() => {
-      setSecondsElapsed(secondsElapsed + 1);
-    }, 1000);
-  }
+  useEffect(() => {
+    let interval: any = null;
+    if (timerRunning) {
+      interval = setInterval(() => {
+        setSecondsElapsed(secondsElapsed => secondsElapsed + 1);
+      }, 1000);
+    } else if (!timerRunning && secondsElapsed !== 0) {
+      clearInterval(interval);
+    }
+    return () => clearInterval(interval);
+  }, [timerRunning, secondsElapsed]);
 
   return (
     <div className="tdMain">
       <div className="tdBirdThought">
-        {secondsElapsed}
+        {secondsElapsed}<span>s</span>
       </div>
       <div className="tdBird" />
     </div>
