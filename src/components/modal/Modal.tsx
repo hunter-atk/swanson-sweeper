@@ -1,4 +1,5 @@
 import * as React from 'react';
+import classNames from 'classnames';
 import { useContext } from 'react';
 
 // contexts
@@ -6,6 +7,9 @@ import { ModalContext } from '../../contexts';
 
 // components
 import { Controls, Leaderboard, Settings, WinMessage } from '../index';
+
+// images
+import CloseIcon from '../../assets/close.svg'
 
 // styles
 import './Modal.sass';
@@ -31,10 +35,10 @@ export const Modal: React.FC<IProps> = ({}) => {
   }
 
   return (
-    <div className="modal">
+    <div className="modal" onClick={() => type === 'intro' || type === 'controls' ? setType('') : null}>
       <div className="windowContainer">
         <div className="window">
-          <button className="closeButton" onClick={() => setType('')} />
+          <img className={classNames("closeButton", type === 'controls' || type === 'intro' ? "hide" : null)} src={CloseIcon} onClick={() => setType('')} />
           <div className="content">{content}</div>
         </div>
       </div>

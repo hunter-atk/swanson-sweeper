@@ -13,18 +13,18 @@ export const Settings: React.FC = () => {
 
   return (
     <div className="settingsMain">
-      <div>
-        <label>Game Difficulty:</label>
-        <select name="difficulty" id="difficulty" value={gameDifficulty} onChange={e => setGameDifficulty(e.target.value)}>
+      <div className="settingsContainer">
+        <div className="settingsTitle">Game Difficulty:</div>
+        <select className="settingsSelect" name="difficulty" id="difficulty" value={gameDifficulty} onChange={e => setGameDifficulty(e.target.value)}>
           <option value="beginner">Beginner</option>
           <option value="intermediate">Intermediate</option>
           <option value="expert">Expert</option>
         </select>
       </div>
-      <button onClick={() => {
+      {/* <button onClick={() => {
         setType('')
         return {}
-      }}>START GAME</button>
+      }}>START GAME</button> */}
     </div>
   );
 };

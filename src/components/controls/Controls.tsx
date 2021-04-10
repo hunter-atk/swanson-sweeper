@@ -1,21 +1,14 @@
 import * as React from 'react';
-import { useContext } from 'react';
 
-// contexts
-import { ModalContext } from '../../contexts'
+// images
+import ControlsImage from '../../assets/controls.png';
 
 // styles
 import './Controls.sass';
 
 export const Controls: React.FC = () => {
-  const { setType } = useContext(ModalContext);
 
   return (
-    <div className="controlsMain">
-      <button onClick={() => {
-        setType('')
-        return {}
-      }}>START GAME</button>
-    </div>
+    <img className="controlsMain" src={ControlsImage}/>
   );
 };
