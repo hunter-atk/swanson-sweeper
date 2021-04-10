@@ -7,14 +7,18 @@ import { Leaderboard, Board, ScoreForm, Settings } from './components'
 // contexts
 import { GameCompletionTimeContextProvider, GameDifficultyContextProvider, GameStatsContextProvider, IsLoadingContextProvider, TimeframeContextProvider, ScoresContextProvider } from './contexts/index';
 
+// styles
+import './App.sass'
+
+
 
 export const App: React.FC = () => (
-  <>
+  <div className="App">
     <Board />
     <Settings />
     <Leaderboard />
     <ScoreForm />
-  </>
+  </div>
 );
 
 export const AppProviders: React.FC = ({ children }) => (
