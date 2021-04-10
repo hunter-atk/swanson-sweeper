@@ -22,9 +22,8 @@ interface IProps {
 }
 
 export const MinesweeperMatrix: React.FC<IProps> = ({ height, width, mines }) => {
-  const { gameStatus, setGameStatus } = useContext(GameStatsContext);
+  const { gameStatus, setGameStatus, coinsGathered, setCoinsGathered } = useContext(GameStatsContext);
   const [dataMatrix, setDataMatrix] = useState([] as any[]);
-  const [coinsGathered, setCoinsGathered] = useState(0);
 
   useEffect(() => {
     resetBoard();
@@ -103,12 +102,11 @@ export const MinesweeperMatrix: React.FC<IProps> = ({ height, width, mines }) =>
           </div>
         })}
       </div>
-      <div>Coins gathered: {coinsGathered}</div>
-      <div>
+      {/* <div>
         {gameStatus === 'lost' ? 'YOU LOST!!!' : null}
         {gameStatus === 'won' ? 'YOU WIN!!!' : null}
       </div>
-      <button onClick={() => resetBoard()}>Reset</button>
+      <button onClick={() => resetBoard()}>Reset</button> */}
     </>
   );
 }

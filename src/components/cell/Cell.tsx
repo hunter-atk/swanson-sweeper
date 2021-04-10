@@ -38,7 +38,9 @@ export const Cell: React.FC<IProps> = ({ keyValue, data, handleClick, handleRigh
       "cellMain",
       data.isFlagged ? "flagged" : null,
       data.clicked ? "clicked" : null,
-      data.clicked && !data.isFlagged && data.isMine ? "mine" : null
+      data.clicked && !data.isFlagged && data.isMine ? "mine" : null,
+      (data.row + data.col) % 2 ? "odd" : "even",
+      data.isRevealed ? "revealed" : null
     )}
       onClick={(e) => handleClick(data.row, data.col, e)}
       onContextMenu={(e) => {

@@ -12,7 +12,7 @@ export const GameDifficultyContext = createContext<IProps>({
 });
 
 export const GameDifficultyContextProvider: React.FC = (props) => {
-  const [gameDifficulty, setGameDifficulty] = useState('beginner');
+  const [gameDifficulty, setGameDifficulty] = useState('expert');
 
   const value = { gameDifficulty, setGameDifficulty };
 
