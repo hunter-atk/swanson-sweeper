@@ -4,3 +4,4 @@ export * from './gameStats';
 export * from './isLoading';
 export * from './scores';
 export * from './timeframe';
+export * from './timer';

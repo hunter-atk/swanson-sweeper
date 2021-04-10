@@ -3,10 +3,10 @@ import { useContext } from 'react';
 import './App.sass';
 
 // components
-import { Leaderboard, Board, ScoreForm, Settings } from './components'
+import { CoinCounter, Leaderboard, MenuSign, Board, ScoreForm, Settings, TimeDisplay } from './components'
 
 // contexts
-import { GameCompletionTimeContextProvider, GameDifficultyContextProvider, GameStatsContextProvider, IsLoadingContextProvider, TimeframeContextProvider, ScoresContextProvider, GameStatsContext } from './contexts/index';
+import { GameCompletionTimeContextProvider, GameDifficultyContextProvider, GameStatsContextProvider, IsLoadingContextProvider, TimeframeContextProvider, TimerContextProvider, ScoresContextProvider, GameStatsContext } from './contexts/index';
 
 // styles
 import './App.sass'
@@ -18,8 +18,10 @@ export const App: React.FC = () => {
 
   return (
     <div className="appMain">
-      <div className="appCoinCounter">{coinsGathered}</div>
+      <CoinCounter />
       <Board />
+      <TimeDisplay />
+      <MenuSign />
       {/* <Settings />
       <Leaderboard />
       <ScoreForm /> */}
@@ -28,17 +30,19 @@ export const App: React.FC = () => {
 };
 
 export const AppProviders: React.FC = ({ children }) => (
-  <GameCompletionTimeContextProvider>
-    <GameDifficultyContextProvider>
-      <GameStatsContextProvider>
-        <IsLoadingContextProvider>
-          <TimeframeContextProvider>
-            <ScoresContextProvider>
-              {children}
-            </ScoresContextProvider>
-          </TimeframeContextProvider>
-        </IsLoadingContextProvider>
-      </GameStatsContextProvider>
-    </GameDifficultyContextProvider>
-  </GameCompletionTimeContextProvider>
+  <TimerContextProvider>
+    <GameCompletionTimeContextProvider>
+      <GameDifficultyContextProvider>
+        <GameStatsContextProvider>
+          <IsLoadingContextProvider>
+            <TimeframeContextProvider>
+              <ScoresContextProvider>
+                {children}
+              </ScoresContextProvider>
+            </TimeframeContextProvider>
+          </IsLoadingContextProvider>
+        </GameStatsContextProvider>
+      </GameDifficultyContextProvider>
+    </GameCompletionTimeContextProvider>
+  </TimerContextProvider>
 );
