@@ -30,8 +30,9 @@ interface IProps {
 }
 
 export const MinesweeperMatrix: React.FC<IProps> = ({ height, width, mines }) => {
-  const { coinsGathered, setCoinsGathered, gameStatus, setGameStatus } = useContext(GameStatsContext);
+  const { gameStatus, setGameStatus } = useContext(GameStatsContext);
   const [dataMatrix, setDataMatrix] = useState([] as any[]);
+  const [coinsGathered, setCoinsGathered] = useState(0);
 
   useEffect(() => {
     const newData = initializeMatrixData(width, height, mines);
@@ -40,9 +41,21 @@ export const MinesweeperMatrix: React.FC<IProps> = ({ height, width, mines }) =>
 
   useEffect(() => {
     if (coinsGathered) {
-      if (coinsGathered === (height * width) - mines) setGameStatus('won');
+      console.log("COINS GATHERED")
+      console.log(coinsGathered)
+      if (coinsGathered === (height * width) - mines) {
+        console.log("WINNERSFJKLSDJK")
+        setGameStatus('won');
+      }
+      return
     }
   }, [coinsGathered])
+
+  useEffect(() => {
+    if(gameStatus){
+      return
+    }
+  }, [gameStatus])
 
   const revealAllMines = () => {
     for (let i = 0; i < dataMatrix.length; i++) {
@@ -53,15 +66,19 @@ export const MinesweeperMatrix: React.FC<IProps> = ({ height, width, mines }) =>
   }
 
   const traverseAndReveal = (data: any, row: number, col: number) => {
+    let coins = 0;
     const currentCell = dataMatrix[row][col];
-    if(currentCell.isMine || currentCell.isFlagged || currentCell.clicked) return;
+    if(currentCell.isMine || currentCell.isFlagged || currentCell.clicked) return 0;
     currentCell.isRevealed = true;
     if (currentCell.surroundingMines) {
       currentCell.clicked = true;
-      return
+      coins++;
+      console.log("gather coin at: ", [row, col])
+      return coins;
     } else {
       currentCell.clicked = true;
-      setCoinsGathered(coinsGathered + 1);
+      coins++
+      console.log("gather coin at: ", [row, col])
       const directions = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]];
       for (let i = 0; i < directions.length; i++) {
         let peekRow = currentCell.row + directions[i][0];
@@ -69,11 +86,11 @@ export const MinesweeperMatrix: React.FC<IProps> = ({ height, width, mines }) =>
         if (peekRow < 0 || peekRow >= height || peekColumn < 0 || peekColumn >= width) {
           continue;
         } else {
-          traverseAndReveal(data, peekRow, peekColumn);
+          coins += traverseAndReveal(data, peekRow, peekColumn);
         }
       }
     }
-    return;
+    return coins;
   }
 
   const handleClick = (row: number, col: number, event: React.MouseEvent) => {
@@ -91,9 +108,11 @@ export const MinesweeperMatrix: React.FC<IProps> = ({ height, width, mines }) =>
     currentCell.isRevealed = true;
     if(currentCell.surroundingMines) { 
       currentCell.clicked = true;
-      setCoinsGathered(coinsGathered + 1);
+      const newCoinsGathered = coinsGathered + 1;
+      setCoinsGathered(newCoinsGathered);
+      console.log("gather coin at: ", [row, col])
     } else {
-      traverseAndReveal(dataMatrix, row, col);
+      setCoinsGathered(coinsGathered + traverseAndReveal(dataMatrix, row, col));
     }
 
     if (coinsGathered === height * width - mines) {
@@ -133,7 +152,7 @@ export const MinesweeperMatrix: React.FC<IProps> = ({ height, width, mines }) =>
       }}>Reset</button> */}
       <div>
         {gameStatus === 'lost' ? 'YOU LOST!!!' : null}
-        {gameStatus === 'win' ? 'YOU WIN!!!' : null}
+        {gameStatus === 'won' ? 'YOU WIN!!!' : null}
       </div>
     </>
   );

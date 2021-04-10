@@ -10,7 +10,7 @@ import { MinesweeperMatrix } from '../../components'
 export const Board: React.FC = () => {
   const [height, setHeight] = useState(8);
   const [width, setWidth] = useState(8);
-  const [mines, setMines] = useState(10);
+  const [mines, setMines] = useState(4);
 
   return (
     <div className="boardMain">

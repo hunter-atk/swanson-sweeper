@@ -36,8 +36,8 @@ export const Cell: React.FC<IProps> = ({ keyValue, data, handleClick, handleRigh
         handleRightClick(data.row, data.col)
         console.log(data.isFlagged)
       }}
-    >{data.surroundingMines && data.isRevealed ? data.surroundingMines : null}
-      {data.isFlagged ? "F" : null}
+    >
+      {data.surroundingMines && data.isRevealed ? data.surroundingMines : null}
     </div>
   );
 }
