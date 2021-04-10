@@ -49,7 +49,7 @@ export const Leaderboard: React.FC = () => {
           </tr>
 
 
-          {/* TO-DO: Implement something like this code block => keep it DRY
+          {/* TO-DO: Implement something like this code block below => keep it DRY
             {scores[timeframe].map((score, index: any) => (
               <tr key={index + 1}>
                 <td>{index + 1}.</td>

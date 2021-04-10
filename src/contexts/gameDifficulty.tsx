@@ -7,12 +7,12 @@ interface IProps {
 }
 
 export const GameDifficultyContext = createContext<IProps>({
-  gameDifficulty: 'expert',
+  gameDifficulty: 'beginner',
   setGameDifficulty: () => {}
 });
 
 export const GameDifficultyContextProvider: React.FC = (props) => {
-  const [gameDifficulty, setGameDifficulty] = useState('expert');
+  const [gameDifficulty, setGameDifficulty] = useState('beginner');
 
   const value = { gameDifficulty, setGameDifficulty };
 

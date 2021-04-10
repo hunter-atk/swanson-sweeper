@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import classNames from 'classnames';
+import { useState } from 'react';
 
 // styles
 import './Cell.sass';
@@ -22,6 +23,15 @@ interface IProps {
 }
 
 export const Cell: React.FC<IProps> = ({ keyValue, data, handleClick, handleRightClick }) => {
+  const [flaggedToggle, setFlaggedToggle] = useState(data.isFlagged);
+
+  useEffect(() => {
+    if (flaggedToggle) {
+      return;
+    }
+  }, [flaggedToggle])
+
+
 
   return (
     <div key={keyValue} className={classNames(
@@ -33,8 +43,8 @@ export const Cell: React.FC<IProps> = ({ keyValue, data, handleClick, handleRigh
       onClick={(e) => handleClick(data.row, data.col, e)}
       onContextMenu={(e) => {
         e.preventDefault();
-        handleRightClick(data.row, data.col)
-        console.log(data.isFlagged)
+        handleRightClick(data.row, data.col);
+        setFlaggedToggle(!flaggedToggle);
       }}
     >
       {data.surroundingMines && data.isRevealed ? data.surroundingMines : null}
