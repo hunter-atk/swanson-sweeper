@@ -1,9 +1,62 @@
 @import ../../styles/Variables.sass
 
-.leaderboardMain
-    width: 300px
-    height: 200px
-    background: $white
+.lbMain
+    width: 64vw
+    height: 50vw
+    background: $pyramidBackground
+
+.lbPyramid
+    width: 100%
+    height: 100%
+    background: url(../../assets/pyramid.png)
+    background-size: contain 
+    background-position: center top 
+    background-repeat: no-repeat
+    padding-top: 8vw
+
+.lbPyramidRow
+    width: 100%
+    display: flex
+    justify-content: center
+
+.lbWinner
+    width: 10vw
+    height: 7.14vw
+    border-top: 0.5vw solid $pyramidMaroon 
+    border-left: 0.5vw solid $pyramidMaroon
+    display: flex
+    justify-content: center
+    align-items: center
+    color: black
+    padding: 5px
+    position: relative
+
+    &:last-child
+        border-right: 0.5vw solid $pyramidMaroon
+
+.lbWinner div h2, .lbWinner div p 
+    margin: 0
+
+.lbWinnerRank
+    position: absolute
+    top: 0
+    left: 0 
+    margin: 2px 0 0 3px 
+    background: url(../../assets/star.svg)
+    background-size: contain
+    background-position: center
+    background-repeat: no-repeat
+    color: black
+    text-align: center 
+    display: flex
+    justify-content: center
+    align-items: center
+    width: 25px
+    height: 25px
+    font-size: 11px
+    font-weight: 700
+    padding-top: 2px
+
 
 
     
