@@ -10,7 +10,7 @@ import { revealAllMines } from '../../functions/revealAllMines'
 import { Cell } from '../cell/Cell';
 
 // contexts
-import { GameStatsContext, TimerContext } from '../../contexts/index';
+import { GameDataContext, GameStatsContext, ModalContext, TimerContext } from '../../contexts/index';
 
 // styles
 import './MinesweeperMatrix.sass';
@@ -22,9 +22,10 @@ interface IProps {
 }
 
 export const MinesweeperMatrix: React.FC<IProps> = ({ height, width, mines }) => {
+  const { dataMatrix, setDataMatrix } = useContext(GameDataContext);
   const { gameStatus, setGameStatus, coinsGathered, setCoinsGathered } = useContext(GameStatsContext);
-  const { secondsElapsed, setSecondsElapsed, timerRunning, setTimerRunning } = useContext(TimerContext);
-  const [dataMatrix, setDataMatrix] = useState([] as any[]);
+  const { setSecondsElapsed, setTimerRunning } = useContext(TimerContext);
+  const { setType } = useContext(ModalContext);
 
   useEffect(() => {
     resetBoard();
@@ -33,12 +34,15 @@ export const MinesweeperMatrix: React.FC<IProps> = ({ height, width, mines }) =>
   useEffect(() => {
     if (coinsGathered === (height * width) - mines) {
       setGameStatus('won');
+      setTimerRunning(false);
+      setType('winMessage');
     }
   }, [coinsGathered])
 
   const resetBoard = () => {
     setSecondsElapsed(0);
     setTimerRunning(false);
+    setType('');
     const newData = initializeMatrixData(width, height, mines);
     setDataMatrix(newData);
     setGameStatus('pending');

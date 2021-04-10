@@ -1,23 +1,28 @@
-import React from 'react';
+import * as React from 'react';
 import axios from 'axios';
 import { useContext, useEffect } from 'react';
 
 // contexts
-import { GameDifficultyContext, TimeframeContext, TimeframeContextProvider, ScoresContext, ScoresContextProvider } from '../../contexts/index';
+import { GameDifficultyContext, LeaderboardContext, ModalContext, ScoresContext } from '../../contexts'
 
 // styles
 import './Leaderboard.sass';
 
 export const Leaderboard: React.FC = () => {
   const { scores, setScores } = useContext(ScoresContext);
-  const { timeframe } = useContext(TimeframeContext);
-  const { gameDifficulty } = useContext(GameDifficultyContext);
+  const { setType } = useContext(ModalContext);
+  const { gameDifficulty, setGameDifficulty } = useContext(GameDifficultyContext);
+  const { timeframe, setTimeframe, difficultyLevel, setDifficultyLevel } = useContext(LeaderboardContext);
 
   useEffect(() => {
-    if (gameDifficulty) {
+    setDifficultyLevel(gameDifficulty);
+  }, [])
+
+  useEffect(() => {
+    if (difficultyLevel) {
       loadScores();
     }
-  }, [gameDifficulty])
+  }, [difficultyLevel])
 
   useEffect(() => {
     if (scores || timeframe) {
@@ -28,7 +33,7 @@ export const Leaderboard: React.FC = () => {
   // loads records in leaderboard db
   const loadScores = async () => {
     try {
-      const response = await axios.get(`https://glacial-eyrie-20134.herokuapp.com/api/scores/${gameDifficulty}`)
+      const response = await axios.get(`https://glacial-eyrie-20134.herokuapp.com/api/scores/${difficultyLevel}`)
       const result = response.data;
       setScores(result);
     } catch (error) {
@@ -37,9 +42,24 @@ export const Leaderboard: React.FC = () => {
   }
 
   return (
-    <div>
-      <h1>{gameDifficulty} Leaderboard</h1>
-
+    <div className="leaderboardMain">
+      <div>
+        <label>Game Difficulty:</label>
+        <select name="difficulty" id="difficulty" value={difficultyLevel} onChange={e => setDifficultyLevel(e.target.value)}>
+          <option value="beginner">Beginner</option>
+          <option value="intermediate">Intermediate</option>
+          <option value="expert">Expert</option>
+        </select>
+      </div>
+      <div>
+        <label>Timeframe:</label>
+        <select name="timeframe" id="timeframe" value={timeframe} onChange={e => setTimeframe(e.target.value)}>
+          <option value="scoresToday">Today</option>
+          <option value="scoresThisWeek">This Week</option>
+          <option value="scoresThisMonth">This Month</option>
+          <option value="scoresAllTime">All Time</option>
+        </select>
+      </div>
       <table>
         <tbody>
           <tr>
@@ -87,14 +107,10 @@ export const Leaderboard: React.FC = () => {
           )) : null}
         </tbody>
       </table>
+      <button onClick={() => {
+        setType('')
+        return {}
+      }}>START GAME</button>
     </div>
   );
-}
-
-export const AppProviders: React.FC = ({ children }) => (
-  <TimeframeContextProvider>
-    <ScoresContextProvider>
-      {children}
-    </ScoresContextProvider>
-  </TimeframeContextProvider>
-);
+};

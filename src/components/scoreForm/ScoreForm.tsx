@@ -3,28 +3,21 @@ import { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 
 // contexts
-import { GameCompletionTimeContext, GameDifficultyContext, TimeframeContext, ScoresContext } from '../../contexts/index';
+import { GameDifficultyContext, LeaderboardContext, ModalContext, ScoresContext, TimerContext } from '../../contexts/index';
 
 // // styles
 // import './ScoreForm.sass';
 
 export const ScoreForm: React.FC = () => {
-  const { gameCompletionTime, setGameCompletionTime } = useContext(GameCompletionTimeContext);
   const { gameDifficulty } = useContext(GameDifficultyContext);
+  const { setType } = useContext(ModalContext);
   const { setScores } = useContext(ScoresContext);
-  const { timeframe } = useContext(TimeframeContext);
+  const { secondsElapsed } = useContext(TimerContext);
   const [playerName, setPlayerName] = useState('');
 
   const [isLoading, setIsLoading] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-
-  useEffect(() => {
-    if (timeframe || gameDifficulty) {
-      setGameCompletionTime(0);
-      return;
-    }
-  }, [timeframe, gameDifficulty])
 
   // loads records in leaderboard db
   const loadScores = async () => {
@@ -33,6 +26,7 @@ export const ScoreForm: React.FC = () => {
     try {
       const response = await axios.get(`https://glacial-eyrie-20134.herokuapp.com/api/scores/${gameDifficulty}`)
       const result = response.data;
+      console.log(result);
       setScores(result);
     } catch (error) {
       console.log(error.message);
@@ -44,15 +38,19 @@ export const ScoreForm: React.FC = () => {
 
   // handles leaderboard entry submit
   const handleSubmit = async (event: any) => {
+    console.log(secondsElapsed)
     event.preventDefault();
 
     setIsLoading(true);
 
     const newScore = {
       playerName,
-      gameCompletionTime,
-      gameDifficulty
+      secondsElapsed,
+      gameDifficulty,
+      gameCompletionTime: secondsElapsed
     };
+
+    console.log(newScore)
 
     try {
       await axios.post(`https://glacial-eyrie-20134.herokuapp.com/api/scores`, newScore)
@@ -63,6 +61,7 @@ export const ScoreForm: React.FC = () => {
       setErrorMessage(error.message);
     }
     setIsLoading(false);
+    setType('leaderboard');
   }
 
   return (
@@ -74,15 +73,12 @@ export const ScoreForm: React.FC = () => {
       </div>
 
       <div>
+        <h2>Enter your name to see how you stack up against other players on the Swanson Pyramid of Greatness!</h2>
         <form onSubmit={handleSubmit}>
           <label>
             Player Name:
             <input type="text" name="name" onChange={e => setPlayerName(e.target.value)} />
           </label>
-          {/* <label>
-            Game Duration:
-            <input type="number" name="duration" onChange={e => setGameCompletionTime(Number(e.target.value))} />
-          </label> */}
           <button type="submit">Add</button>
         </form>
       </div>

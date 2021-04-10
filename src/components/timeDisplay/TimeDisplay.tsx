@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import classNames from 'classnames';
 import { useContext, useState } from 'react';
 
 // contexts
@@ -24,7 +25,7 @@ export const TimeDisplay: React.FC = () => {
 
   return (
     <div className="tdMain">
-      <div className="tdBirdThought">
+      <div className={classNames("tdBirdThought", !secondsElapsed ? "hide" : null)}>
         {secondsElapsed}<span>s</span>
       </div>
       <div className="tdBird" />
