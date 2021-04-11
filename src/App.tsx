@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import './App.sass';
 
 // components
@@ -23,16 +23,17 @@ export const App: React.FC = () => {
   const { type, setType } = useContext(ModalContext);
   const { setGameStatus, setCoinsGathered } = useContext(GameStatsContext);
   const { setSecondsElapsed, setTimerRunning } = useContext(TimerContext);
+  const [titleIsVisible, setTitleIsVisible] = useState(true);
 
   let width: number;
   let height: number;
   let mines: number;
 
-  if(gameDifficulty === 'beginner'){
+  if (gameDifficulty === 'beginner') {
     width = 9;
     height = 9;
     mines = 10;
-  } else if (gameDifficulty === 'intermediate'){
+  } else if (gameDifficulty === 'intermediate') {
     width = 21;
     height = 12;
     mines = 30;
@@ -47,7 +48,7 @@ export const App: React.FC = () => {
   }, [])
 
   useEffect(() => {
-    if(gameDifficulty){
+    if (gameDifficulty) {
       resetBoard();
       return;
     }
@@ -55,10 +56,10 @@ export const App: React.FC = () => {
 
   const resetBoard = () => {
     const newData = initializeMatrixData(width, height, mines);
-    
+
     setSecondsElapsed(0);
     setTimerRunning(false);
-    if(type !== 'intro'){
+    if (type !== 'intro') {
       setType('');
     }
     setDataMatrix(newData);
@@ -76,6 +77,7 @@ export const App: React.FC = () => {
       <TimeDisplay />
       <MenuSign />
       <Modal />
+      {titleIsVisible ? <div className="appIntroTitle" onClick={() => setTitleIsVisible(false)}/> : null}
     </div>
   )
 };
@@ -87,9 +89,9 @@ export const AppProviders: React.FC = ({ children }) => (
         <GameDataContextProvider>
           <GameDifficultyContextProvider>
             <GameStatsContextProvider>
-                <ScoresContextProvider>
-                  {children}
-                </ScoresContextProvider>
+              <ScoresContextProvider>
+                {children}
+              </ScoresContextProvider>
             </GameStatsContextProvider>
           </GameDifficultyContextProvider>
         </GameDataContextProvider>
