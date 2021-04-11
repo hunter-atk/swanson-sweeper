@@ -63,18 +63,16 @@ export const ScoreForm: React.FC = () => {
 
   return (
     <div className="sfMain">
-      <div>
-        {isLoading ? <p className="sfText">Loading</p> : null}
-        {errorMessage ? <p className="sfText">{errorMessage}</p> : null}
-        {isComplete ? <p>Score Submitted!</p> : null}
-      </div>
-
-      <div className="sfFormContainer">
-        <form onSubmit={handleSubmit}>
-          <input className="sfInput" type="text" name="name" placeholder="Enter your name here..." onChange={e => setPlayerName(e.target.value)} />
-          <button onClick={handleSubmit} className="sfButton" type="submit">Add</button>
-        </form>
-      </div>
+      {isLoading ? <p className="sfText">Loading</p> : null}
+      {errorMessage ? <p className="sfText">{errorMessage}</p> : null}
+      {isComplete ? <p>Score Submitted!</p> : null}
+      {!isComplete && !isLoading && !errorMessage ?
+        <div className="sfFormContainer">
+          <form onSubmit={handleSubmit}>
+            <input className="sfInput" type="text" name="name" placeholder="Enter your name here..." onChange={e => setPlayerName(e.target.value)} />
+            <button onClick={handleSubmit} className="sfButton" type="submit">Add</button>
+          </form>
+        </div> : null}
     </div>
   );
 }
