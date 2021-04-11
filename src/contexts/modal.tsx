@@ -12,7 +12,7 @@ export const ModalContext = createContext<IProps>({
 });
 
 export const ModalContextProvider: React.FC = props => {
-  const [type, setType] = useState<'' | 'intro' | 'settings' | 'controls' | 'leaderboard' | 'winMessage' | 'scoreForm' >('');
+  const [type, setType] = useState<'' | 'intro' | 'settings' | 'controls' | 'leaderboard' | 'winMessage' | 'scoreForm' >('intro');
 
   const value = { type, setType };
 

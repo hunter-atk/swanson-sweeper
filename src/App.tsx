@@ -22,7 +22,7 @@ export const App: React.FC = () => {
   const { gameDifficulty } = useContext(GameDifficultyContext);
   const { setGameStatus, setCoinsGathered } = useContext(GameStatsContext);
   const { setSecondsElapsed, setTimerRunning } = useContext(TimerContext);
-  const { setType } = useContext(ModalContext);
+  const { type, setType } = useContext(ModalContext);
 
   let width: number;
   let height: number;
@@ -46,6 +46,10 @@ export const App: React.FC = () => {
   }
 
   useEffect(() => {
+    setType('intro');
+  }, [])
+
+  useEffect(() => {
     if(gameDifficulty){
       resetBoard();
       return;
@@ -57,7 +61,9 @@ export const App: React.FC = () => {
     
     setSecondsElapsed(0);
     setTimerRunning(false);
-    setType('');
+    if(type !== 'intro'){
+      setType('');
+    }
     setDataMatrix(newData);
     setGameStatus('pending');
     setCoinsGathered(0);
