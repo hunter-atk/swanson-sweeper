@@ -1,44 +1,44 @@
 @import ../../styles/Variables.sass
 
 .tdBird
-  width: 70px
-  height: 70px
-  position: absolute 
-  top: 120px
-  right: 4px
   background: url('../../assets/bird.png')
-  background-size: contain
   background-position: center
   background-repeat: no-repeat
+  background-size: contain
+  height: 70px
+  position: absolute
+  right: 4px
+  top: 120px
+  width: 70px
 
 .tdBirdThought
-  width: 220px
-  height: 140px
-  position: absolute 
-  top: 0
-  right: 60px
+  align-items: center
   background: url('../../assets/thought.png')
-  background-size: contain
   background-position: center
   background-repeat: no-repeat
+  background-size: contain
   display: flex
-  justify-content: center
-  align-items: center 
-  text-align: center 
   font-size: 30px
   font-weight: $veryHeavy
+  height: 140px
+  justify-content: center
   padding-right: 40px
+  position: absolute 
+  right: 60px 
+  text-align: center 
+  top: 0
+  width: 220px
   
-  &.hide
+  &.tdHide
     display: none
 
 .tdBirdThought span 
+  margin-left: 2px
+  margin-top: 8px
   font-size: 20px
   font-weight: $heavy
-  margin-top: 8px
-  margin-left: 2px
     
 .tdMain
   position: absolute
-  top: 0
   right: 0
+  top: 0

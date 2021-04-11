@@ -2,6 +2,7 @@ export * from './addMines';
 export * from './countSurroundingMines';
 export * from './createDataMatrix';
 export * from './getRank';
+export * from './generateLeaderboardCells';
 export * from './initializeMatrixData';
 export * from './populateNeighborValues'
 export * from './revealAllMines';

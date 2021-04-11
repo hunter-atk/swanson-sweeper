@@ -8,9 +8,6 @@ import { ModalContext } from '../../contexts';
 // components
 import { Controls, Intro, Leaderboard, ScoreForm, Settings, WinMessage } from '../index';
 
-// images
-// import CloseIcon from '../../assets/close.svg'
-
 // styles
 import './Modal.sass';
 

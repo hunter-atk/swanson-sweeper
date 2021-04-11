@@ -5,8 +5,8 @@ import { useContext } from 'react';
 import { ModalContext } from '../../contexts'
 
 // images
-import LeaderboardSign from '../../assets/sign2.png';
 import ControlsSign from '../../assets/sign3.png';
+import LeaderboardSign from '../../assets/sign2.png';
 import SettingsSign from '../../assets/sign4.png';
 
 // styles

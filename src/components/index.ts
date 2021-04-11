@@ -4,6 +4,7 @@ export * from './coinCounter/CoinCounter';
 export * from './controls/Controls';
 export * from './intro/Intro';
 export * from './leaderboard/Leaderboard';
+export * from './leaderboardCell/LeaderboardCell';
 export * from './leaderboardSettings/LeaderboardSettings';
 export * from './menuSign/MenuSign';
 export * from './minesweeperMatrix/MinesweeperMatrix';

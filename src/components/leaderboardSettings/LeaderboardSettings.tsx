@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useContext, useEffect } from 'react';
 
 // contexts
-import { GameDifficultyContext, LeaderboardContext, ModalContext } from '../../contexts'
+import { GameDifficultyContext, LeaderboardContext } from '../../contexts'
 
 // styles
 import './LeaderboardSettings.sass';
@@ -10,7 +10,6 @@ import './LeaderboardSettings.sass';
 export const LeaderboardSettings: React.FC = () => {
   const { gameDifficulty } = useContext(GameDifficultyContext);
   const { timeframe, setTimeframe, difficultyLevel, setDifficultyLevel } = useContext(LeaderboardContext);
-  const { setType } = useContext(ModalContext);
 
   useEffect(() => {
     setDifficultyLevel(gameDifficulty);
@@ -35,7 +34,6 @@ export const LeaderboardSettings: React.FC = () => {
           <option value="scoresAllTime">All Time</option>
         </select>
       </div>
-      {/* <div className="lbsBackButton" onClick={() => setType('')}>CLOSE</div> */}
     </div>
   );
 };

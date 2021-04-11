@@ -9,7 +9,7 @@ import { CoinCounter, MenuSign, Modal, Board, TimeDisplay } from './components';
 import { GameDataContext, GameDifficultyContext, GameStatsContext, ModalContext, TimerContext } from './contexts/index';
 
 // context providers
-import { GameDataContextProvider, GameDifficultyContextProvider, GameStatsContextProvider, IsLoadingContextProvider, LeaderboardContextProvider, ModalContextProvider, TimerContextProvider, ScoresContextProvider } from './contexts/index';
+import { GameDataContextProvider, GameDifficultyContextProvider, GameStatsContextProvider, LeaderboardContextProvider, ModalContextProvider, TimerContextProvider, ScoresContextProvider } from './contexts/index';
 
 // functions
 import { initializeMatrixData } from './functions/initializeMatrixData'
@@ -20,9 +20,9 @@ import './App.sass'
 export const App: React.FC = () => {
   const { setDataMatrix } = useContext(GameDataContext);
   const { gameDifficulty } = useContext(GameDifficultyContext);
+  const { type, setType } = useContext(ModalContext);
   const { setGameStatus, setCoinsGathered } = useContext(GameStatsContext);
   const { setSecondsElapsed, setTimerRunning } = useContext(TimerContext);
-  const { type, setType } = useContext(ModalContext);
 
   let width: number;
   let height: number;
@@ -32,17 +32,14 @@ export const App: React.FC = () => {
     width = 9;
     height = 9;
     mines = 10;
-    // mines = 1;
   } else if (gameDifficulty === 'intermediate'){
     width = 21;
     height = 12;
-    mines = 40;
-    // mines = 4;
+    mines = 30;
   } else {
     width = 25;
     height = 16;
-    mines = 72;
-    // mines = 4;
+    mines = 52;
   }
 
   useEffect(() => {
@@ -90,11 +87,9 @@ export const AppProviders: React.FC = ({ children }) => (
         <GameDataContextProvider>
           <GameDifficultyContextProvider>
             <GameStatsContextProvider>
-              <IsLoadingContextProvider>
                 <ScoresContextProvider>
                   {children}
                 </ScoresContextProvider>
-              </IsLoadingContextProvider>
             </GameStatsContextProvider>
           </GameDifficultyContextProvider>
         </GameDataContextProvider>

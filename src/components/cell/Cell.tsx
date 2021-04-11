@@ -5,24 +5,25 @@ import { useState } from 'react';
 // styles
 import './Cell.sass';
 
+// props
 interface Data {
-  row: number;
-  col: number,
+  col: number;
+  clicked: boolean;
   isMine: boolean;
   isFlagged: boolean;
-  surroundingMines: number;
   isRevealed: boolean;
-  clicked: boolean;
+  row: number;
+  surroundingMines: number;
 }
 
 interface IProps {
-  keyValue: number;
   data: Data;
   handleClick: any;
   handleRightClick: any;
+  keyValue: number;
 }
 
-export const Cell: React.FC<IProps> = ({ keyValue, data, handleClick, handleRightClick }) => {
+export const Cell: React.FC<IProps> = ({ data, handleClick, handleRightClick, keyValue }) => {
   const [flaggedToggle, setFlaggedToggle] = useState(data.isFlagged);
 
   useEffect(() => {
@@ -36,11 +37,11 @@ export const Cell: React.FC<IProps> = ({ keyValue, data, handleClick, handleRigh
   return (
     <div key={keyValue} className={classNames(
       "cellMain",
-      data.isFlagged ? "flagged" : null,
-      data.clicked ? "clicked" : null,
-      data.clicked && !data.isFlagged && data.isMine ? "mine" : null,
-      (data.row + data.col) % 2 ? "odd" : "even",
-      data.isRevealed ? "revealed" : null
+      data.isFlagged ? "cellFlagged" : null,
+      data.clicked ? "cellClicked" : null,
+      data.clicked && !data.isFlagged && data.isMine ? "cellMine" : null,
+      (data.row + data.col) % 2 ? "cellOdd" : "cellEven",
+      data.isRevealed ? "cellRevealed" : null
     )}
       onClick={(e) => handleClick(data.row, data.col, e)}
       onContextMenu={(e) => {

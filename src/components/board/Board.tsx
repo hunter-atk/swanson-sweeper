@@ -4,27 +4,21 @@ import { useContext } from 'react';
 // components
 import { MinesweeperMatrix } from '../../components'
 
-// contexts
-import { GameDifficultyContext } from '../../contexts/index';
-
 // styles
 import './Board.sass';
 
+// props
 interface IProps {
-  width: number;
   height: number;
-  mines: number
+  mines: number;
+  width: number;
 }
 
-export const Board: React.FC<IProps> = ({ width, height, mines}) => {
-  const { gameDifficulty } = useContext(GameDifficultyContext);
+export const Board: React.FC<IProps> = ({ height, mines, width}) => {
 
   return (
     <div className="boardMain">
       <MinesweeperMatrix height={height} width={width} mines={mines} /> 
-      {/* { gameDifficulty === 'beginner' ? <MinesweeperMatrix height={9} width={9} mines={5} /> : null}
-      { gameDifficulty === 'intermediate' ? <MinesweeperMatrix height={12} width={21} mines={40} /> : null}
-      { gameDifficulty === 'expert' ? <MinesweeperMatrix height={16} width={25} mines={72} /> : null} */}
     </div>
   );
 }

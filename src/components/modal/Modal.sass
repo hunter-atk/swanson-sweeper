@@ -2,9 +2,9 @@
     cursor: pointer
     float: right
     height: 15px
-    width: 15px
     margin-right: -15px
     margin-top: -15px
+    width: 15px
 
 .content
     color: grey
@@ -18,25 +18,24 @@
     background-color: rgba(0, 0, 0, 0.5)
     height: 100vh
     left: 0
+    overflow: auto
     position: absolute
     top: 0
     width: 100%
     z-index: 5
-    overflow: auto
 
     &.winMessage
-        background-color: none
         background: url('../../assets/raining-coins.png')
-        background-size: cover
+        background-color: none
         background-position: top
         background-repeat: no-repeat
+        background-size: cover
 
 .modalCloseArea
-    width: 100px
-    height: 100vh
-    flex-grow: 1
-    // background: rgba(255,255,255,0.3)
     cursor: pointer
+    flex-grow: 1
+    height: 100vh
+    width: 100px
 
 .title
     font-weight: bold
@@ -45,8 +44,8 @@
     box-sizing: border-box
 
 .windowContainer
-    display: flex
     align-items: center
+    display: flex
     justify-content: center
     min-height: 100%
     position: relative

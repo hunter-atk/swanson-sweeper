@@ -2,13 +2,12 @@ import * as React from 'react';
 import { useContext } from 'react';
 
 // contexts
-import { GameDifficultyContext, ModalContext } from '../../contexts'
+import { GameDifficultyContext } from '../../contexts'
 
 // styles
 import './Settings.sass';
 
 export const Settings: React.FC = () => {
-  const { setType } = useContext(ModalContext);
   const { gameDifficulty, setGameDifficulty } = useContext(GameDifficultyContext);
 
   return (
@@ -21,10 +20,6 @@ export const Settings: React.FC = () => {
           <option value="expert">Expert</option>
         </select>
       </div>
-      {/* <button onClick={() => {
-        setType('')
-        return {}
-      }}>START GAME</button> */}
     </div>
   );
 };

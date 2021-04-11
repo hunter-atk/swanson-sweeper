@@ -5,9 +5,6 @@ import { useContext } from 'react';
 // contexts
 import { ModalContext, TimerContext } from '../../contexts'
 
-// images
-import WinnerImage from '../../assets/winner.png';
-
 // styles
 import './WinMessage.sass';
 
