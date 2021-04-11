@@ -5,6 +5,9 @@ import { useContext } from 'react';
 // contexts
 import { ModalContext, TimerContext } from '../../contexts'
 
+// images
+import WinnerImage from '../../assets/winner.png';
+
 // styles
 import './WinMessage.sass';
 
@@ -15,7 +18,6 @@ export const WinMessage: React.FC = () => {
   return (
     <div className="wmMain">
       <div className="wmDanceGif" />
-      {/* <h1 className="wmTitle">YOU GOT ALL THE GOLD IN {secondsElapsed} SECONDS!</h1> */}
       <div className="wmFormContainer">
         <div className={classNames("wmButtonContainer", "right")}>
           <div className="wmScore" onClick={() => {
