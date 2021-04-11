@@ -64,8 +64,8 @@ export const ScoreForm: React.FC = () => {
   return (
     <div className="sfMain">
       <div>
-        {isLoading ? "Loading" : null}
-        {errorMessage ? <p>{errorMessage}</p> : null}
+        {isLoading ? <p className="sfText">Loading</p> : null}
+        {errorMessage ? <p className="sfText">{errorMessage}</p> : null}
         {isComplete ? <p>Score Submitted!</p> : null}
       </div>
 
