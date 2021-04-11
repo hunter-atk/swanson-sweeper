@@ -3,7 +3,7 @@ import { useContext, useState } from 'react';
 import './App.sass';
 
 // components
-import { CoinCounter, MenuSign, Modal, Board, TimeDisplay } from './components';
+import { BackButton, CoinCounter, MenuSign, Modal, Board, TimeDisplay } from './components';
 
 // contexts
 import { GameDataContext, GameDifficultyContext, GameStatsContext, ModalContext, TimerContext } from './contexts/index';
@@ -70,6 +70,7 @@ export const App: React.FC = () => {
   return (
     <div className="appMain">
       <CoinCounter />
+      <BackButton />
       <div>
         <Board width={width} height={height} mines={mines} />
         <div className="appResetButton" onClick={() => resetBoard()} />

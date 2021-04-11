@@ -1,3 +1,4 @@
+export * from './backButton/BackButton';
 export * from './board/Board';
 export * from './cell/Cell';
 export * from './coinCounter/CoinCounter';
