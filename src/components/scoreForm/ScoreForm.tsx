@@ -1,12 +1,12 @@
 import React from 'react';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import axios from 'axios';
 
 // contexts
-import { GameDifficultyContext, LeaderboardContext, ModalContext, ScoresContext, TimerContext } from '../../contexts/index';
+import { GameDifficultyContext, ModalContext, ScoresContext, TimerContext } from '../../contexts/index';
 
 // // styles
-// import './ScoreForm.sass';
+import './ScoreForm.sass';
 
 export const ScoreForm: React.FC = () => {
   const { gameDifficulty } = useContext(GameDifficultyContext);
@@ -26,7 +26,6 @@ export const ScoreForm: React.FC = () => {
     try {
       const response = await axios.get(`https://glacial-eyrie-20134.herokuapp.com/api/scores/${gameDifficulty}`)
       const result = response.data;
-      console.log(result);
       setScores(result);
     } catch (error) {
       console.log(error.message);
@@ -50,8 +49,6 @@ export const ScoreForm: React.FC = () => {
       gameCompletionTime: secondsElapsed
     };
 
-    console.log(newScore)
-
     try {
       await axios.post(`https://glacial-eyrie-20134.herokuapp.com/api/scores`, newScore)
 
@@ -65,20 +62,16 @@ export const ScoreForm: React.FC = () => {
   }
 
   return (
-    <div>
+    <div className="sfMain">
       <div>
-        {isLoading ? "Loading" : "NOT Loading"}
+        {isLoading ? "Loading" : null}
         {errorMessage ? <p>{errorMessage}</p> : null}
         {isComplete ? <p>Score Submitted!</p> : null}
       </div>
 
-      <div>
-        <h2>Enter your name to see how you stack up against other players on the Swanson Pyramid of Greatness!</h2>
+      <div className="sfFormContainer">
         <form onSubmit={handleSubmit}>
-          <label>
-            Player Name:
-            <input type="text" name="name" onChange={e => setPlayerName(e.target.value)} />
-          </label>
+          <input type="text" name="name" placeholder="Enter your name here..." onChange={e => setPlayerName(e.target.value)} />
           <button type="submit">Add</button>
         </form>
       </div>

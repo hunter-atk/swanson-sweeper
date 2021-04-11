@@ -1,9 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Knewave&display=swap');
 @import ../../styles/Variables.sass
 
+.wmDanceGif
+    width: 40vh
+    height: 40vh
+    border-radius: 20vh
+    background: url('../../assets/dance.gif')
+    background-size: cover
+    background-position: center
+    background-repeat: no-repeat
+
 .wmMain
-    width: 300px
-    height: 200px
-    background: $white
+    width: 90vw
+    height: 90vh
+    background: url('../../assets/stardust.png')
+    background-size: contain
+    background-position: center
+    background-repeat: no-repeat
+    display: flex
+    justify-content: center
+    align-items: center
+    position: relative
+
+.wmRestart, .wmScore
+    width: 200px
+    cursor: pointer
+    padding: 10px 20px
+    background: $pyramidMaroon
+    border-radius: 4px
+    color: white
+    font-weight: $veryHeavy
+    font-size: 20px
+    border: none
+    margin-top: 10px
+
+    &:focus
+        outline: none
+
+    &:hover
+        background: gold
+
+.wmScore
+    margin-right: 15px
+
+.wmTitle
+    text-align: center
+    color: red
+    position: absolute
+    top: 0
+    font-family: "Knewave"
+    color: white
+    font: bold 56px Knewave, Serif
+    text-shadow: -4px 3px 0 #9c0a00, -10px 7px 0 #0a0e27
+
+.wmFormContainer
+    position: absolute
+    bottom: 0
+    width: 100%
 
 
     

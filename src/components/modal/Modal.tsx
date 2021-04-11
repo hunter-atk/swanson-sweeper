@@ -6,7 +6,7 @@ import { useContext } from 'react';
 import { ModalContext } from '../../contexts';
 
 // components
-import { Controls, Leaderboard, Settings, WinMessage } from '../index';
+import { Controls, Leaderboard, ScoreForm, Settings, WinMessage } from '../index';
 
 // images
 import CloseIcon from '../../assets/close.svg'
@@ -32,10 +32,11 @@ export const Modal: React.FC<IProps> = ({}) => {
     content = <Leaderboard />;
   } else if (type === 'winMessage') {
     content = <WinMessage />;
+  } else if (type === 'scoreForm') {
+    content = <ScoreForm />;
   }
-
   return (
-    <div className="modal" onClick={() => type === 'intro' || type === 'controls' ? setType('') : null}>
+    <div className={classNames("modal", type == 'winMessage' ? 'winMessage' : null)} onClick={() => type === 'intro' || type === 'controls' ? setType('') : null}>
       <div className="windowContainer">
         <div className="window">
           <img className={classNames("closeButton", type === 'controls' || type === 'intro' ? "hide" : null)} src={CloseIcon} onClick={() => setType('')} />

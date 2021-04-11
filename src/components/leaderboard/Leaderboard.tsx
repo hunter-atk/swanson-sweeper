@@ -76,14 +76,30 @@ export const Leaderboard: React.FC = () => {
     setIsLoading(false);
   }
 
+  const getRank = (rowIndex: number, columnIndex: number) => {
+    console.log(scores);
+    console.log(rowIndex, columnIndex)
+    let rank;
+      if(rowIndex === 0) {
+        console.log("returning 1")
+        rank = 1;
+      } else if (rowIndex === 1) {
+        rank = columnIndex + 2;
+      } else {
+        rank = ((rowIndex + 1) * (rowIndex + 1) + columnIndex);
+      }
+      console.log(rank);
+      return rank;
+  }
+
   return (
     <div className="lbMain">
       <div className="lbPyramid">
-        {!isLoading && winners ? winners.map((winnerRow, i) => (
+        {!isLoading && winners ? winners.map((winnerRow, rowIndex) => (
           <div className="lbPyramidRow">
-            {winnerRow.map((winner: any, j: number) => (
-              <div className="lbWinner" style={{ background: cellColors[i + j] ? cellColors[i + j] : cellColors[i + j - cellColors.length] }}>
-                {winner && winner.playerName ? <div className="lbWinnerRank">{((i + 1) * (i + 1) + j)}</div> : null}
+            {winnerRow.map((winner: any, cellIndex: number) => (
+              <div className="lbWinner" style={{ background: cellColors[rowIndex + cellIndex] ? cellColors[rowIndex + cellIndex] : cellColors[rowIndex + cellIndex - cellColors.length] }}>
+                {winner && winner.playerName ? <div className="lbWinnerRank">{getRank(rowIndex, cellIndex)}</div> : null}
                 <div>
                   <h2>{winner && winner.gameCompletionTime ? `${winner.gameCompletionTime}s` : null}</h2>
                   <p>

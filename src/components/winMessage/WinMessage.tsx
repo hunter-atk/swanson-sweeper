@@ -1,9 +1,6 @@
 import * as React from 'react';
 import { useContext } from 'react';
 
-// components
-import { ScoreForm } from '../index';
-
 // contexts
 import { ModalContext, TimerContext } from '../../contexts'
 
@@ -16,12 +13,18 @@ export const WinMessage: React.FC = () => {
 
   return (
     <div className="wmMain">
-      <h1>YOU DID IT in {secondsElapsed} seconds!</h1>
-      <ScoreForm />
-      <button onClick={() => {
-        setType('')
-        return {}
-      }}>START ANOTHER GAME</button>
+      <div className="wmDanceGif" />
+      <h1 className="wmTitle">YOU GOT ALL THE GOLD IN {secondsElapsed} SECONDS!</h1>
+      <div className="wmFormContainer">
+        <button className="wmScore" onClick={() => {
+          setType('scoreForm')
+          return {}
+        }}>Submit Score</button>
+        <button className="wmRestart" onClick={() => {
+          setType('')
+          return {}
+        }}>Play again!</button>
+      </div>
     </div>
   );
 };
