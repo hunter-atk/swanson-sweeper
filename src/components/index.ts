@@ -3,6 +3,7 @@ export * from './cell/Cell';
 export * from './coinCounter/CoinCounter';
 export * from './controls/Controls';
 export * from './leaderboard/Leaderboard';
+export * from './leaderboardSettings/LeaderboardSettings';
 export * from './menuSign/MenuSign';
 export * from './minesweeperMatrix/MinesweeperMatrix';
 export * from './modal/Modal';

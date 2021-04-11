@@ -113,11 +113,6 @@ export const MinesweeperMatrix: React.FC<IProps> = ({ height, width, mines }) =>
           </div>
         })}
       </div>
-      {/* <div>
-        {gameStatus === 'lost' ? 'YOU LOST!!!' : null}
-        {gameStatus === 'won' ? 'YOU WIN!!!' : null}
-      </div>
-      <button onClick={() => resetBoard()}>Reset</button> */}
     </>
   );
 }

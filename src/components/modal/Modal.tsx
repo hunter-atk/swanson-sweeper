@@ -14,8 +14,8 @@ import CloseIcon from '../../assets/close.svg'
 // styles
 import './Modal.sass';
 
-interface IProps {}
-export const Modal: React.FC<IProps> = ({}) => {
+interface IProps { }
+export const Modal: React.FC<IProps> = ({ }) => {
   const { type, setType } = useContext(ModalContext);
 
   if (type === '') {
@@ -38,10 +38,11 @@ export const Modal: React.FC<IProps> = ({}) => {
   return (
     <div className={classNames("modal", type == 'winMessage' ? 'winMessage' : null)} onClick={() => type === 'intro' || type === 'controls' ? setType('') : null}>
       <div className="windowContainer">
-        <div className="window">
-          <img className={classNames("closeButton", type === 'controls' || type === 'intro' ? "hide" : null)} src={CloseIcon} onClick={() => setType('')} />
+        <div className="modalCloseArea" onClick={() => setType('')} />
+        <div className="window" onClick={(e) => e.preventDefault()}>
           <div className="content">{content}</div>
         </div>
+        <div className="modalCloseArea" onClick={() => setType('')} />
       </div>
     </div>
   );

@@ -5,6 +5,12 @@ import { useContext, useEffect, useState } from 'react';
 // contexts
 import { GameDifficultyContext, LeaderboardContext, ModalContext, ScoresContext } from '../../contexts'
 
+// components
+import { LeaderboardSettings } from '../index';
+
+// functions
+import { getRank } from '../../functions/getRank';
+
 // styles
 import './Leaderboard.sass';
 
@@ -12,7 +18,7 @@ export const Leaderboard: React.FC = () => {
   const { scores, setScores } = useContext(ScoresContext);
   const { gameDifficulty } = useContext(GameDifficultyContext);
   const { timeframe, setTimeframe, difficultyLevel, setDifficultyLevel } = useContext(LeaderboardContext);
-  const [winners, setWinners] = useState([] as any[])
+  const [winners, setWinners] = useState([[""], ["", ""], ["", "", ""], ["", "", "", ""], ["", "", "", "", ""]] as any[])
   const [isLoading, setIsLoading] = useState(true);
   const cellColors = ["#8aac76", "#acd1d6", "#f7dab2", "#fbf4a7", "#bea771", "#dc9b7a"]
 
@@ -76,26 +82,10 @@ export const Leaderboard: React.FC = () => {
     setIsLoading(false);
   }
 
-  const getRank = (rowIndex: number, columnIndex: number) => {
-    console.log(scores);
-    console.log(rowIndex, columnIndex)
-    let rank;
-      if(rowIndex === 0) {
-        console.log("returning 1")
-        rank = 1;
-      } else if (rowIndex === 1) {
-        rank = columnIndex + 2;
-      } else {
-        rank = ((rowIndex + 1) * (rowIndex + 1) + columnIndex);
-      }
-      console.log(rank);
-      return rank;
-  }
-
   return (
     <div className="lbMain">
       <div className="lbPyramid">
-        {!isLoading && winners ? winners.map((winnerRow, rowIndex) => (
+        {winners ? winners.map((winnerRow, rowIndex) => (
           <div className="lbPyramidRow">
             {winnerRow.map((winner: any, cellIndex: number) => (
               <div className="lbWinner" style={{ background: cellColors[rowIndex + cellIndex] ? cellColors[rowIndex + cellIndex] : cellColors[rowIndex + cellIndex - cellColors.length] }}>
@@ -109,29 +99,9 @@ export const Leaderboard: React.FC = () => {
               </div>
             ))}
           </div>
-        )) : <div>Loading...</div>}
+        )) : null}
+        <LeaderboardSettings />
       </div>
-
-      <div>
-        <div>
-          <label>Game Difficulty:</label>
-          <select name="difficulty" id="difficulty" value={difficultyLevel} onChange={e => setDifficultyLevel(e.target.value)}>
-            <option value="beginner">Beginner</option>
-            <option value="intermediate">Intermediate</option>
-            <option value="expert">Expert</option>
-          </select>
-        </div>
-        <div>
-          <label>Timeframe:</label>
-          <select name="timeframe" id="timeframe" value={timeframe} onChange={e => setTimeframe(e.target.value)}>
-            <option value="scoresToday">Today</option>
-            <option value="scoresThisWeek">This Week</option>
-            <option value="scoresThisMonth">This Month</option>
-            <option value="scoresAllTime">All Time</option>
-          </select>
-        </div>
-      </div>
-
     </div>
   );
 };

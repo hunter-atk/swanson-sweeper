@@ -71,8 +71,8 @@ export const ScoreForm: React.FC = () => {
 
       <div className="sfFormContainer">
         <form onSubmit={handleSubmit}>
-          <input type="text" name="name" placeholder="Enter your name here..." onChange={e => setPlayerName(e.target.value)} />
-          <button type="submit">Add</button>
+          <input className="sfInput" type="text" name="name" placeholder="Enter your name here..." onChange={e => setPlayerName(e.target.value)} />
+          <button className="sfButton" type="submit">Add</button>
         </form>
       </div>
     </div>

@@ -1,18 +1,30 @@
-@import url('https://fonts.googleapis.com/css2?family=Knewave&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Knewave&family=Montserrat:wght@800&display=swap');
 @import ../../styles/Variables.sass
 
+.vmButtonContainer
+    width: 100%
+    display: flex
+    align-items: center
+
+    &.left
+        justify-content: flex-start
+
+    &.right
+        justify-content: flex-end
+
 .wmDanceGif
-    width: 40vh
-    height: 40vh
-    border-radius: 20vh
+    width: 50vh
+    height: 50vh
+    border-radius: 25vh
     background: url('../../assets/dance.gif')
     background-size: cover
     background-position: center
     background-repeat: no-repeat
+    border: 3px solid gold
 
 .wmMain
-    width: 90vw
-    height: 90vh
+    width: 100vw
+    height: 100vh
     background: url('../../assets/stardust.png')
     background-size: contain
     background-position: center
@@ -24,39 +36,31 @@
 
 .wmRestart, .wmScore
     width: 200px
+    height: 50px
     cursor: pointer
-    padding: 10px 20px
-    background: $pyramidMaroon
-    border-radius: 4px
-    color: white
-    font-weight: $veryHeavy
-    font-size: 20px
-    border: none
-    margin-top: 10px
-
-    &:focus
-        outline: none
-
-    &:hover
-        background: gold
+    margin-top: 18px
 
 .wmScore
-    margin-right: 15px
+    margin-left: 120px
 
 .wmTitle
     text-align: center
     color: red
     position: absolute
     top: 0
-    font-family: "Knewave"
-    color: white
-    font: bold 56px Knewave, Serif
-    text-shadow: -4px 3px 0 #9c0a00, -10px 7px 0 #0a0e27
+    color: #02bfa0
+    font: bold 56px Montserrat, Serif
+    text-shadow: -2px 2px 0 #9c0a00, -5px 4px 0 #0a0e27
 
 .wmFormContainer
     position: absolute
     bottom: 0
-    width: 100%
+    width: 330px
+    height: 180px
+    background: url(../../assets/sign-two.png)
+    background-position: top
+    background-size: cover
+    background-repeat: no-repeat
 
 
     
