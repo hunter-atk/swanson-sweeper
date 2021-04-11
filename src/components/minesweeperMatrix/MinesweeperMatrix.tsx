@@ -2,9 +2,7 @@ import React from 'react';
 import { useContext, useEffect, useState } from 'react';
 
 // functions
-import { initializeMatrixData } from '../../functions/initializeMatrixData'
-import { traverseAndReveal } from '../../functions/traverseAndReveal'
-import { revealAllMines } from '../../functions/revealAllMines'
+import { initializeMatrixData, revealAllMines, traverseAndReveal } from '../../functions/index';
 
 // components
 import { Cell } from '../cell/Cell';
@@ -49,6 +47,37 @@ export const MinesweeperMatrix: React.FC<IProps> = ({ height, width, mines }) =>
     setCoinsGathered(0);
   }
 
+  const revealSurroundingMines = (row: number, column: number) => {
+    const directions = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]];
+    const startingCell = dataMatrix[row][column];
+    let accumulatedCoins = 0;
+    for (let i = 0; i < directions.length; i++) {
+      let peekRow = startingCell.row + directions[i][0];
+      let peekColumn = startingCell.col + directions[i][1];
+      if (peekRow < 0 || peekRow >= height || peekColumn < 0 || peekColumn >= width) {
+        continue;
+      } else {
+        const currentCell = dataMatrix[peekRow][peekColumn];
+        if (currentCell.isFlagged || currentCell.clicked) continue;
+        if (currentCell.isMine && !currentCell.isFlagged) {
+          currentCell.clicked = true;
+          setTimerRunning(false);
+          setGameStatus('lost');
+          revealAllMines(dataMatrix);
+          return;
+        }
+        if (currentCell.surroundingMines) {
+          accumulatedCoins++;
+          currentCell.clicked = true;
+          currentCell.isRevealed = true;
+        } else {
+          accumulatedCoins += traverseAndReveal(dataMatrix, peekRow, peekColumn, width, height);
+        }
+      }
+    }
+    return accumulatedCoins;
+  }
+
   const handleClick = (row: number, col: number) => {
     setTimerRunning(true);
     const currentCell = dataMatrix[row][col];
@@ -58,7 +87,7 @@ export const MinesweeperMatrix: React.FC<IProps> = ({ height, width, mines }) =>
       return;
     }
 
-    if (currentCell.clicked || currentCell.isFlagged) return;
+    if (currentCell.isFlagged) return;
 
     if (currentCell.isMine && !currentCell.isFlagged) {
       currentCell.clicked = true;
@@ -68,14 +97,20 @@ export const MinesweeperMatrix: React.FC<IProps> = ({ height, width, mines }) =>
       return;
     }
 
-    currentCell.isRevealed = true;
-
-    if (currentCell.surroundingMines) {
-      currentCell.clicked = true;
-      const newCoinsGathered = coinsGathered + 1;
+    if (currentCell.clicked && !currentCell.isFlagged && currentCell.surroundingMines) {
+      let newCoinsGathered = revealSurroundingMines(row, col) || 0;
+      newCoinsGathered += coinsGathered;
       setCoinsGathered(newCoinsGathered);
     } else {
-      setCoinsGathered(coinsGathered + traverseAndReveal(dataMatrix, row, col, width, height));
+      currentCell.isRevealed = true;
+
+      if (currentCell.surroundingMines) {
+        currentCell.clicked = true;
+        const newCoinsGathered = coinsGathered + 1;
+        setCoinsGathered(newCoinsGathered);
+      } else {
+        setCoinsGathered(coinsGathered + traverseAndReveal(dataMatrix, row, col, width, height));
+      }
     }
 
     if (coinsGathered === height * width - mines) {

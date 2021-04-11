@@ -1,4 +1,4 @@
-import { countSurroundingMines } from './countSurroundingMines'
+import { countSurroundingMines } from './index';
 
 export const populateNeighborValues = (data: any, width: number, height: number) => {
     for (let i = 0; i < height; i++) {

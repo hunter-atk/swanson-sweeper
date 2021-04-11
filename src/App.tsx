@@ -31,8 +31,8 @@ export const App: React.FC = () => {
   if(gameDifficulty === 'beginner'){
     width = 9;
     height = 9;
-    // mines = 10;
-    mines = 1;
+    mines = 10;
+    // mines = 1;
   } else if (gameDifficulty === 'intermediate'){
     width = 21;
     height = 12;

@@ -1,6 +1,4 @@
-import { createDataMatrix } from './createDataMatrix'
-import { addMines } from './addMines'
-import { populateNeighborValues } from './populateNeighborValues'
+import { addMines, createDataMatrix, populateNeighborValues } from './index'
 
 export const initializeMatrixData = (width: number, height: number, mines: number) => {
     const matrixTemplate = createDataMatrix(width, height);
