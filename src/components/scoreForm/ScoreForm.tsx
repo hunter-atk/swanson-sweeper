@@ -37,6 +37,7 @@ export const ScoreForm: React.FC = () => {
 
   // handles leaderboard entry submit
   const handleSubmit = async (event: any) => {
+    console.log("ahdjfkdskjfhjkdls")
     event.preventDefault();
 
     setIsLoading(true);
@@ -71,7 +72,7 @@ export const ScoreForm: React.FC = () => {
       <div className="sfFormContainer">
         <form onSubmit={handleSubmit}>
           <input className="sfInput" type="text" name="name" placeholder="Enter your name here..." onChange={e => setPlayerName(e.target.value)} />
-          <button onSubmit={handleSubmit} className="sfButton" type="submit">Add</button>
+          <button onClick={handleSubmit} className="sfButton" type="submit">Add</button>
         </form>
       </div>
     </div>
