@@ -6,6 +6,8 @@
 
 LIVE DEMO: https://morning-journey-11634.herokuapp.com/
 
+<img width="1380" alt="Screen Shot 2022-07-02 at 12 17 16 PM" src="https://user-images.githubusercontent.com/33410523/177010891-a9b612c8-cf2b-4e8a-bc4a-82177fa4d1e9.png">
+
 <img width="1381" alt="Screen Shot 2022-07-02 at 12 17 55 PM" src="https://user-images.githubusercontent.com/33410523/177010205-ec3c9f48-25be-4b2f-b233-2b7f5d593d97.png">
 
 
