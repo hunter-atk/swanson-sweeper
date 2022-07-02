@@ -1,10 +1,10 @@
 # SwansonSweeper: A Parks & Recreation Minesweeper Game
 
-## Created using React, TypeScript, SASS, and Node.
+### Created using React, TypeScript, SASS, and Node.
 
-## Custom assets created using Adobe CC Suite. Other assets sourced from free online image archives.
+### Custom assets created using Adobe CC Suite. Other assets sourced from free online image archives.
 
-LIVE DEMO: https://morning-journey-11634.herokuapp.com/
+### LIVE DEMO: https://morning-journey-11634.herokuapp.com/
 
 <img width="1380" alt="Screen Shot 2022-07-02 at 12 17 16 PM" src="https://user-images.githubusercontent.com/33410523/177010891-a9b612c8-cf2b-4e8a-bc4a-82177fa4d1e9.png">
 
